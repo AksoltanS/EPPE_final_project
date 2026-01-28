@@ -1,3 +1,9 @@
+# Final Project Topic: “Global Evidence on Children’s Living Arrangements” (Ardila Brenøe & Wasserman, AEA P&P 2025)
+Paper link: https://www.aeaweb.org/articles?id=10.1257/pandp.20251012
+
+Goal: Reproduce at least one main table/figure from the paper using the official replication package, implementing the full pipeline entirely in Python (cleaning → constructing country-year measures → analysis → figure/table export) with a reproducible Pixi environment, pytask workflow, and tests.
+
+
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/i9Zy4NKR)
 # Econ Project Templates: Modern, Reproducible Research in Economics
 
