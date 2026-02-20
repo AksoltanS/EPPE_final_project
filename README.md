@@ -1,5 +1,7 @@
-# Final Project Topic: “Global Evidence on Children’s Living Arrangements” (Ardila Brenøe & Wasserman, AEA PAPERS AND PROCEEDINGS,2025)
-Paper link: https://www.aeaweb.org/articles?id=10.1257/pandp.20251012
+
+# Final Project Topic:Understanding People’s Preferences for Predictions: People Prioritize Being Right over Minimizing How Wrong They Are in Expectation
+Paper link: https://pubsonline.informs.org/doi/10.1287/mnsc.2024.07257
+
 
 Goal: Reproduce at least one main table/figure from the paper using the official replication package, implementing the full pipeline entirely in Python (cleaning → constructing country-year measures → analysis → figure/table export) with a reproducible Pixi environment, pytask workflow, and tests.
 
