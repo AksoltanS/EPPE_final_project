@@ -6,8 +6,8 @@ import pandas as pd
 import plotly.io as pio
 import pytask
 
-from template_project.config import BLD, DOCUMENTS, SRC, TEMPLATE_GROUPS
-from template_project.final.plot_template import plot_regression_by_age
+from final_project_aksoltans.config import BLD, DOCUMENTS, SRC, TEMPLATE_GROUPS
+from final_project_aksoltans.final.plot_template import plot_regression_by_age
 
 for group in TEMPLATE_GROUPS:
 

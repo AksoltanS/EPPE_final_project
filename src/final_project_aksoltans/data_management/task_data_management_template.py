@@ -4,8 +4,8 @@ from pathlib import Path
 
 import pandas as pd
 
-from template_project.config import BLD, SRC
-from template_project.data_management.stats4schools_smoking_template import (
+from final_project_aksoltans.config import BLD, SRC
+from final_project_aksoltans.data_management.stats4schools_smoking_template import (
     clean_stats4schools_smoking,
 )
 

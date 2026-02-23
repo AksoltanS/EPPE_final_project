@@ -1,17 +1,19 @@
+# Final Project Topic: Discrimination in the Formation of Academic Networks: A Field Experiment on #EconTwitter
 
-# Final Project Topic:Understanding People’s Preferences for Predictions: People Prioritize Being Right over Minimizing How Wrong They Are in Expectation
-Paper link: https://pubsonline.informs.org/doi/10.1287/mnsc.2024.07257
+Paper link: https://www.aeaweb.org/articles?id=10.1257/aeri.20240298
 
-
-Goal: Reproduce at least one main table/figure from the paper using the official replication package, implementing the full pipeline entirely in Python (cleaning → constructing country-year measures → analysis → figure/table export) with a reproducible Pixi environment, pytask workflow, and tests.
-
+Goal: Reproduce at least one main table/figure from the paper using the official
+replication package, implementing the full pipeline entirely in Python (cleaning →
+constructing country-year measures → analysis → figure/table export) with a reproducible
+Pixi environment, pytask workflow, and tests.
 
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/i9Zy4NKR)
+
 # Econ Project Templates: Modern, Reproducible Research in Economics
 
 ![MIT license](https://img.shields.io/github/license/OpenSourceEconomics/econ-project-templates)
 [![Documentation Status](https://readthedocs.org/projects/econ-project-templates/badge/?version=stable)](https://econ-project-templates.readthedocs.io/en/stable/)
-[![image](https://github.com/OpenSourceEconomics/econ-project-templates/actions/workflows/main.yml/badge.svg)](https://github.com/OpenSourceEconomics/econ-project-templates/actions/workflows/main.yml)
+[![image](https://github.com/iame-uni-bonn/final-project-AksoltanS.git/actions/workflows/main.yml/badge.svg)](https://github.com/iame-uni-bonn/final-project-AksoltanS.git/actions/workflows/main.yml)
 [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/OpenSourceEconomics/econ-project-templates/main.svg)](https://results.pre-commit.ci/latest/github/OpenSourceEconomics/econ-project-templates/main)
 
 This project provides a "batteries-included" template for economists to produce fully
@@ -54,7 +56,7 @@ Full documentation is available at
 
 We welcome suggestions on anything from improving the documentation to reporting bugs
 and requesting new features. Please open an
-[issue](https://github.com/OpenSourceEconomics/econ-project-templates/issues) in these
+[issue](https://github.com/iame-uni-bonn/final-project-AksoltanS.git/issues) in these
 cases.
 
 ### Contributors

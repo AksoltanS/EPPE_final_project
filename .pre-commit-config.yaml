@@ -34,14 +34,14 @@ repos:
         description: Forces to replace line ending by the UNIX 'lf' character.
       - id: name-tests-test
         args: [--pytest-test-first]
-      - id: no-commit-to-branch
-        args: [--branch, main]
+    #  - id: no-commit-to-branch
+    #   args: [--branch, main]
       - id: trailing-whitespace
   - repo: https://github.com/adrienverge/yamllint.git
     rev: v1.38.0
     hooks:
       - id: yamllint
-        exclude: ^(docs_template/\.readthedocs.yaml)$
+       # exclude: ^(docs_template/\.readthedocs.yaml)$
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.14.14
     hooks:

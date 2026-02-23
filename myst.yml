@@ -3,11 +3,11 @@
 version: 1
 project:
   id: template-project
-  title: EXAMPLE PROJECT
+  title: FINAL-PROJECT-AKSOLTANS
   description: Template for reproducible research projects in economics
   authors:
-    - name: JANE DOE
-      affiliations: [EXAMPLE UNIVERSITY]
+    - name: AKSOLTAN SEYIDOVA
+      affiliations: [BONN UNIVERSITY]
       email: janedoe@example-university.de
   keywords: [economics, reproducible research]
   toc:

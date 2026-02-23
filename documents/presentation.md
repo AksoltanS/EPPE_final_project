@@ -5,22 +5,22 @@ class: text-center
 highlighter: shiki
 lineNumbers: false
 info: |
-  ## EXAMPLE PROJECT
+  ## FINAL-PROJECT-AKSOLTANS
   Academic presentation with Slidev
 drawings:
   persist: false
 transition: fade
-title: EXAMPLE PROJECT
+title: FINAL-PROJECT-AKSOLTANS
 mdc: true
 defaults:
   layout: center
 ---
 
-# EXAMPLE PROJECT
+# FINAL-PROJECT-AKSOLTANS
 
-JANE DOE
+AKSOLTAN SEYIDOVA
 
-EXAMPLE UNIVERSITY
+BONN UNIVERSITY
 
 ---
 
