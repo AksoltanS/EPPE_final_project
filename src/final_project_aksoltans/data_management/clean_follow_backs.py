@@ -35,4 +35,7 @@ def make_follow_backs_analysis_sample(raw: pd.DataFrame) -> pd.DataFrame:
     df["FollowBacks"] = to_numeric(raw["FollowBacks"])
 
     df = df[(df["shadow_ban"] == 0) & (df["Attr"] == 0)].copy()
+
+    df = df.dropna(subset=["treat", "FollowBacks"])
+
     return df
