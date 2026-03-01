@@ -1,6 +1,8 @@
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
+from matplotlib import pyplot as plt
 
 from final_project_aksoltans.analysis.stats_helper_functions import mean_ci_t
 from final_project_aksoltans.config import (
@@ -16,6 +18,7 @@ def task_plot_fig3a(
     data: Path = FOLLOW_BACKS_ANALYSIS,
     produces: tuple[Path, Path] = (FIG3A_DATA, FIG3A_PNG),
 ) -> None:
+    produces_csv, produces_png = produces
     df = pd.read_parquet(data)
 
     rows: list[dict[str, float | int]] = []
@@ -34,3 +37,76 @@ def task_plot_fig3a(
                 "ciH": ci_high,
             }
         )
+    plotdf = (
+        pd.DataFrame(rows)
+        .sort_values(["bot_gender", "bot_race", "bot_uni"])
+        .reset_index(drop=True)
+    )
+
+    produces_csv.parent.mkdir(parents=True, exist_ok=True)
+    plotdf.to_csv(produces_csv, index=False)
+
+    gender_label = {0: "Male", 1: "Female"}
+    race_label = {0: "White", 1: "Black"}
+    uni_label = {0: "Lower-Ranked", 1: "Top-Ranked"}
+
+    fig, axes = plt.subplots(1, 2, figsize=(12, 5), sharey=True)
+
+    x_positions = np.array([0, 1], dtype=float)
+    width = 0.35
+    offsets = {0: -width / 2, 1: width / 2}
+
+    for ax, gdr in zip(axes, [0, 1], strict=False):
+        sub = plotdf[plotdf["bot_gender"] == gdr].copy()
+
+        for race in [0, 1]:
+            s = (
+                sub[sub["bot_race"] == race]
+                .set_index("bot_uni")
+                .reindex([0, 1])
+                .reset_index()
+            )
+
+            y = s["pct_flwback"].to_numpy(dtype=float)
+            yerr_low = (s["pct_flwback"] - s["ciL"]).to_numpy(dtype=float)
+            yerr_high = (s["ciH"] - s["pct_flwback"]).to_numpy(dtype=float)
+
+            ax.bar(
+                x_positions + offsets[race],
+                y,
+                width=width,
+                edgecolor="black",
+                label=race_label[race],
+            )
+            ax.errorbar(
+                x_positions + offsets[race],
+                y,
+                yerr=[yerr_low, yerr_high],
+                fmt="none",
+                capsize=4,
+            )
+
+            for i, v in enumerate(y):
+                ax.text(
+                    x_positions[i] + offsets[race],
+                    0.01,
+                    f"{v:.3f}",
+                    ha="center",
+                    va="bottom",
+                    fontweight="bold",
+                    fontsize=9,
+                )
+
+        ax.set_title(f"Bot's Gender: {gender_label[gdr]}")
+        ax.set_xticks([0, 1])
+        ax.set_xticklabels([uni_label[0], uni_label[1]])
+        ax.set_xlabel("Bot's University Affiliation")
+        ax.set_ylim(0, 0.30)
+
+    axes[0].set_ylabel("Share of Follow Backs")
+    axes[1].legend(title="Bot's Race", loc="upper right")
+
+    produces_png.parent.mkdir(parents=True, exist_ok=True)
+    fig.tight_layout()
+    fig.savefig(produces_png, dpi=200)
+    plt.close(fig)
