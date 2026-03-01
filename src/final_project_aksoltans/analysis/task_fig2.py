@@ -58,7 +58,7 @@ def _plot_one(ax, df: pd.DataFrame, group_col: str, xlabel: str, ylabel: str) ->
 
 
 def task_plot_fig2_marginals(
-    script: Path = SRC / "analysis" / "task_fig2_plot.py",
+    script: Path = SRC / "analysis" / "task_fig2.py",
     data: Path = FOLLOW_BACKS_ANALYSIS,
     produces: Path = FIG2_PNG,
 ) -> None:
