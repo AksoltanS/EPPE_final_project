@@ -3,7 +3,8 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 import pandas as pd
 
-from final_project_aksoltans.analysis.stats_helper_functions import mean_ci_t
+from final_project_aksoltans.analysis.fig2_data import build_fig2_marginals
+from final_project_aksoltans.analysis.plot_utils import plot_bars_with_ci
 from final_project_aksoltans.config import (
     FIG2_GENDER_DATA,
     FIG2_PNG,
@@ -20,41 +21,23 @@ LABELS = {
 }
 
 
-def build_marginal(df: pd.DataFrame, group_col: str) -> pd.DataFrame:
-    rows: list[dict[str, float | int]] = []
-    for val, g in df.groupby(group_col, sort=True):
-        mean, ci_low, ci_high = mean_ci_t(g["FollowBacks"])
-        rows.append(
-            {
-                group_col: int(pd.to_numeric(val)),
-                "pct_flwback": mean,
-                "ciL": ci_low,
-                "ciH": ci_high,
-            }
-        )
-    return pd.DataFrame(rows).sort_values(group_col).reset_index(drop=True)
-
-
 def _plot_one(ax, df: pd.DataFrame, group_col: str, xlabel: str, ylabel: str) -> None:
     df = df.copy()
     df["label"] = df[group_col].map(LABELS[group_col])
 
-    x = range(len(df))
-    y = df["pct_flwback"].astype(float).to_numpy()
-    yerr_low = (df["pct_flwback"] - df["ciL"]).astype(float).to_numpy()
-    yerr_high = (df["ciH"] - df["pct_flwback"]).astype(float).to_numpy()
+    plot_bars_with_ci(
+        ax=ax,
+        df=df,
+        y_col="pct_flwback",
+        ci_low_col="ciL",
+        ci_high_col="ciH",
+        x_labels=df["label"].astype(str).tolist(),
+        ylim=(0, 0.245),
+        show_value_labels=True,
+    )
 
-    ax.bar(x, y, edgecolor="black")
-    ax.errorbar(x, y, yerr=[yerr_low, yerr_high], fmt="none", capsize=4)
-
-    ax.set_xticks(list(x))
-    ax.set_xticklabels(df["label"].astype(str).tolist())
     ax.set_xlabel(xlabel)
     ax.set_ylabel(ylabel)
-    ax.set_ylim(0, 0.245)
-
-    for i, v in enumerate(y):
-        ax.text(i, 0.01, f"{v:.3f}", ha="center", va="bottom", fontweight="bold")
 
 
 def task_plot_fig2_marginals(
@@ -63,21 +46,29 @@ def task_plot_fig2_marginals(
     produces: Path = FIG2_PNG,
 ) -> None:
     df = pd.read_parquet(data)
-    out_gender = build_marginal(df, "bot_gender")
-    out_race = build_marginal(df, "bot_race")
-    out_uni = build_marginal(df, "bot_uni")
+    outs = build_fig2_marginals(df)
 
     produces.parent.mkdir(parents=True, exist_ok=True)
-    out_gender.to_csv(FIG2_GENDER_DATA, index=False)
-    out_race.to_csv(FIG2_RACE_DATA, index=False)
-    out_uni.to_csv(FIG2_UNI_DATA, index=False)
+    outs["bot_gender"].to_csv(FIG2_GENDER_DATA, index=False)
+    outs["bot_race"].to_csv(FIG2_RACE_DATA, index=False)
+    outs["bot_uni"].to_csv(FIG2_UNI_DATA, index=False)
 
     fig, axes = plt.subplots(1, 3, figsize=(14, 5))
     _plot_one(
-        axes[0], out_gender, "bot_gender", "Bot's Gender", "Share of Follow Backs"
+        axes[0],
+        outs["bot_gender"],
+        "bot_gender",
+        "Bot's Gender",
+        "Share of Follow Backs",
     )
-    _plot_one(axes[1], out_race, "bot_race", "Bot's Race", "")
-    _plot_one(axes[2], out_uni, "bot_uni", "Bot's University Affiliation", "")
+    _plot_one(axes[1], outs["bot_race"], "bot_race", "Bot's Race", "")
+    _plot_one(
+        axes[2],
+        outs["bot_uni"],
+        "bot_uni",
+        "Bot's University Affiliation",
+        "",
+    )
 
     fig.tight_layout()
     fig.savefig(produces, dpi=200)
