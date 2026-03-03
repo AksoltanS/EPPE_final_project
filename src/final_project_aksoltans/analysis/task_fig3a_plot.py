@@ -34,6 +34,10 @@ def task_plot_fig3a(
 
     fig, axes = plt.subplots(1, 2, figsize=(12, 5), sharey=True)
 
+    for ax in axes:
+        ax.grid(axis="y", alpha=0.25)
+        ax.set_axisbelow(True)
+
     x_positions = np.array([0, 1], dtype=float)
     width = 0.35
     offsets = {0: -width / 2, 1: width / 2}
@@ -53,31 +57,39 @@ def task_plot_fig3a(
             yerr_low = (s["pct_flwback"] - s["ciL"]).to_numpy(dtype=float)
             yerr_high = (s["ciH"] - s["pct_flwback"]).to_numpy(dtype=float)
 
-            ax.bar(
-                x_positions + offsets[race],
-                y,
-                width=width,
-                edgecolor="black",
-                label=race_label[race],
-            )
-            ax.errorbar(
-                x_positions + offsets[race],
-                y,
-                yerr=[yerr_low, yerr_high],
-                fmt="none",
-                capsize=4,
-            )
+        bar_colors = {0: "0.90", 1: "0.55"}
 
-            for i, v in enumerate(y):
-                ax.text(
-                    x_positions[i] + offsets[race],
-                    0.01,
-                    f"{v:.3f}",
-                    ha="center",
-                    va="bottom",
-                    fontweight="bold",
-                    fontsize=9,
-                )
+        ax.bar(
+            x_positions + offsets[race],
+            y,
+            width=width,
+            edgecolor="black",
+            color=bar_colors[race],
+            label=race_label[race],
+            zorder=2,
+        )
+        ax.errorbar(
+            x_positions + offsets[race],
+            y,
+            yerr=[yerr_low, yerr_high],
+            fmt="none",
+            capsize=6,
+            ecolor="black",
+            elinewidth=1.5,
+            capthick=1.5,
+            zorder=3,
+        )
+
+        for i, v in enumerate(y):
+            ax.text(
+                x_positions[i] + offsets[race],
+                0.01,
+                f"{v:.3f}",
+                ha="center",
+                va="bottom",
+                fontweight="bold",
+                fontsize=9,
+            )
 
         ax.set_title(f"Bot's Gender: {gender_label[gdr]}")
         ax.set_xticks([0, 1])
@@ -86,7 +98,7 @@ def task_plot_fig3a(
         ax.set_ylim(0, 0.30)
 
     axes[0].set_ylabel("Share of Follow Backs")
-    axes[1].legend(title="Bot's Race", loc="upper right")
+    axes[1].legend(title="Bot's Race", loc="upper right", box_to_anchor=(1.02, 0.5))
 
     produces_png.parent.mkdir(parents=True, exist_ok=True)
     fig.tight_layout()
