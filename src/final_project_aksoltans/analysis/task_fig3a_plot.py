@@ -1,10 +1,12 @@
+from __future__ import annotations
+
 from pathlib import Path
 
 import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
 
-from final_project_aksoltans.analysis.stats_helper_functions import mean_ci_t
+from final_project_aksoltans.analysis.fig3a_data import build_fig3a_data
 from final_project_aksoltans.config import (
     FIG3A_DATA,
     FIG3A_PNG,
@@ -21,27 +23,7 @@ def task_plot_fig3a(
     produces_csv, produces_png = produces
     df = pd.read_parquet(data)
 
-    rows: list[dict[str, float | int]] = []
-    for (gdr, race, uni), g in df.groupby(
-        ["bot_gender", "bot_race", "bot_uni"],
-        sort=True,
-    ):
-        mean, ci_low, ci_high = mean_ci_t(g["FollowBacks"])
-        rows.append(
-            {
-                "bot_gender": int(pd.to_numeric(gdr)),
-                "bot_race": int(pd.to_numeric(race)),
-                "bot_uni": int(pd.to_numeric(uni)),
-                "pct_flwback": mean,
-                "ciL": ci_low,
-                "ciH": ci_high,
-            }
-        )
-    plotdf = (
-        pd.DataFrame(rows)
-        .sort_values(["bot_gender", "bot_race", "bot_uni"])
-        .reset_index(drop=True)
-    )
+    plotdf = build_fig3a_data(df)
 
     produces_csv.parent.mkdir(parents=True, exist_ok=True)
     plotdf.to_csv(produces_csv, index=False)
