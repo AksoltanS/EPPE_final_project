@@ -6,7 +6,6 @@ import pandas as pd
 
 
 def load_follow_backs_raw(path: Path) -> pd.DataFrame:
-    """Read follow_backs.csv and return a DataFrame (semicolon-delimited)."""
     return pd.read_csv(path, sep=";")
 
 
