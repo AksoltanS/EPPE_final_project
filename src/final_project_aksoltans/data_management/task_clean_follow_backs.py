@@ -12,7 +12,6 @@ def task_clean_follow_backs_data(
     data: Path = FOLLOW_BACKS_RAW,
     produces: Path = FOLLOW_BACKS_ANALYSIS,
 ) -> None:
-    """Cleans the follow_backs data and saves it as a parquet file."""
     raw = load_follow_backs_raw(data)
     clean = make_follow_backs_analysis_sample(raw)
 
