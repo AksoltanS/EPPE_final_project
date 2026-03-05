@@ -42,6 +42,7 @@ def task_plot_fig1(
     produces: Path = FIG1_PNG,
 ) -> None:
     df = pd.read_csv(data).copy()
+    df["treat"] = pd.to_numeric(df["treat"], errors="coerce").astype("Int64")
 
     df["label"] = df["treat"].map(TREAT_LABELS)
     df = df.sort_values("pct_flwback").reset_index(drop=True)
