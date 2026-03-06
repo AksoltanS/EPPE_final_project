@@ -2,9 +2,9 @@ from pathlib import Path
 
 import pandas as pd
 
-# need to write docstings to all functions and check again
+# need to write docstings to all functions
 
-INT_COLS: list[str] = [
+_INT_COLS: list[str] = [
     "shadow_ban",
     "Attr",
     "treat",
@@ -22,11 +22,11 @@ INT_COLS: list[str] = [
     "missfit",
 ]
 
-FLOAT_COLS: list[str] = [
+_FLOAT_COLS: list[str] = [
     "FollowBacks",
 ]
 
-STR_COLS: list[str] = [
+_STR_COLS: list[str] = [
     "race",
     "gender",
     "treat_names",
@@ -34,14 +34,14 @@ STR_COLS: list[str] = [
     "profession",
 ]
 
-NUM_COLS: list[str] = INT_COLS + FLOAT_COLS
+_NUM_COLS: list[str] = _INT_COLS + _FLOAT_COLS
 
 
 def load_follow_backs_raw(path: Path) -> pd.DataFrame:
     return pd.read_csv(path, sep=";")
 
 
-def check_required_columns(df: pd.DataFrame, required: set[str]) -> None:
+def _check_required_columns(df: pd.DataFrame, required: set[str]) -> None:
     missing = required - set(df.columns)
     if missing:
         missing_str = ", ".join(sorted(missing))
@@ -49,17 +49,13 @@ def check_required_columns(df: pd.DataFrame, required: set[str]) -> None:
         raise ValueError(msg)
 
 
-def to_numeric(s: pd.Series) -> pd.Series:
-    return pd.to_numeric(s, errors="coerce")
-
-
 def make_follow_backs_analysis_sample(raw: pd.DataFrame) -> pd.DataFrame:
+    _check_required_columns(raw, set(_NUM_COLS + _STR_COLS))
     df = pd.DataFrame(index=raw.index)
-    for col in NUM_COLS:
+    for col in _NUM_COLS:
         df[col] = pd.to_numeric(raw[col], errors="coerce")
-    for col in STR_COLS:
+    for col in _STR_COLS:
         df[col] = raw[col].astype("string")
     df = df[(df["shadow_ban"] == 0) & (df["Attr"] == 0)].copy()
-    df[INT_COLS] = df[INT_COLS].astype("Int64")
-
+    df[_INT_COLS] = df[_INT_COLS].astype("Int64")
     return df
