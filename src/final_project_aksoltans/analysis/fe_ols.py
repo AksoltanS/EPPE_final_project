@@ -3,13 +3,11 @@ import pandas as pd
 from scipy import stats
 from scipy.linalg import qr
 
-FE_GROUPS = ["wave", "strata", "missfit", "_ws", "_wm"]
-CONVERGENCE_THRESHOLD = 1e-13
-
-# need to recheck these functions again
+_FE_GROUPS = ["wave", "strata", "missfit", "_ws", "_wm"]
+_CONVERGENCE_THRESHOLD = 1e-13
 
 
-def fe_rank(df: pd.DataFrame) -> int:
+def _fe_rank(df: pd.DataFrame) -> int:
     def d(s, p):
         return pd.get_dummies(s, prefix=p, drop_first=True, dtype=float)
 
@@ -23,22 +21,21 @@ def fe_rank(df: pd.DataFrame) -> int:
     return int(np.linalg.matrix_rank(pd.concat(blocks, axis=1).to_numpy(dtype=float)))
 
 
-def absorb_fe(data: pd.DataFrame, cols: list[str]) -> pd.DataFrame:
+def _absorb_fe(data: pd.DataFrame, cols: list[str]) -> pd.DataFrame:
     prev = data[cols].to_numpy().copy()
     for _ in range(2000):
-        # why I use _ here instead of i, because I don't need the index of the loop
-        for g in FE_GROUPS:
+        for g in _FE_GROUPS:
             gm = data.groupby(g)[cols].transform("mean")
             for c in cols:
                 data[c] = data[c] - gm[c]
         curr = data[cols].to_numpy()
-        if np.max(np.abs(curr - prev)) < CONVERGENCE_THRESHOLD:
+        if np.max(np.abs(curr - prev)) < _CONVERGENCE_THRESHOLD:
             break
         prev = curr.copy()
     return data
 
 
-def sandwich_vcov(
+def _sandwich_vcov(
     x_mat: np.ndarray,
     residuals: np.ndarray,
     clusters: np.ndarray,
@@ -89,7 +86,7 @@ def fe_ols(
     for c in cols:
         data[c] = data[c].astype(float)
 
-    data = absorb_fe(data, cols)
+    data = _absorb_fe(data, cols)
 
     y_vec = data[y].to_numpy(dtype=float)
     x_full = data[regressors].to_numpy(dtype=float)
@@ -105,8 +102,8 @@ def fe_ols(
     coef[keep] = coef_keep
 
     clusters = data[cluster_col].to_numpy()
-    k_fe = fe_rank(data)
-    vcov, _, g_clusters = sandwich_vcov(x_full, resid, clusters, k_fe)
+    k_fe = _fe_rank(data)
+    vcov, _, g_clusters = _sandwich_vcov(x_full, resid, clusters, k_fe)
     se = np.sqrt(np.diag(vcov))
 
     t_crit = stats.t.ppf(0.975, df=g_clusters - 1)
