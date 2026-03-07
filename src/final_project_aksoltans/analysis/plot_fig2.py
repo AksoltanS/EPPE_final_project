@@ -2,7 +2,10 @@ import pandas as pd
 from matplotlib.axes import Axes
 from matplotlib.lines import Line2D
 
-from final_project_aksoltans.analysis.plot_utils import plot_bars_with_ci
+from final_project_aksoltans.analysis.plot_utils import (
+    PVAL_THRESHOLD,
+    plot_bars_with_ci,
+)
 
 _LABELS = {
     "bot_gender": {0: "Male", 1: "Female"},
@@ -12,11 +15,10 @@ _LABELS = {
 _COLORS = {"Yes": "steelblue", "No": "darkred"}
 _MARKERS = {"Yes": "x", "No": "o"}
 _DODGE = 0.08
-_PVAL_THRESHOLD = 0.001
 
 
 def _fmt_p(p: float) -> str:
-    return f"<{_PVAL_THRESHOLD:.3f}" if p < _PVAL_THRESHOLD else f"{round(p, 3):.3f}"
+    return f"<{PVAL_THRESHOLD:.3f}" if p < PVAL_THRESHOLD else f"{round(p, 3):.3f}"
 
 
 def plot_marginal(
