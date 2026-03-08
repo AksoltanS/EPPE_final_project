@@ -99,7 +99,7 @@ def plot_forest(
         y_off = +0.05 if cfg["annot_above"] else -0.05
         va = "bottom" if cfg["annot_above"] else "top"
         for xi, yi, pvi in zip(xv, yv, pv, strict=False):
-            p_str = "<PVAL_THRESHOLD" if pvi < PVAL_THRESHOLD else f"{pvi:.3f}"
+            p_str = "<0.001" if pvi < PVAL_THRESHOLD else f"{pvi:.3f}"
             ax.text(
                 xi,
                 yi + y_off,
@@ -121,7 +121,7 @@ def plot_forest(
     ax.tick_params(axis="x", labelsize=8)
     ax.grid(axis="x", alpha=0.25, linewidth=0.6)
     ax.set_axisbelow(True)
-    ax.yaxis.grid(b=False)
+    ax.yaxis.grid(visible=False)
 
     handles = [
         Line2D(
