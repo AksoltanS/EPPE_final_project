@@ -2,7 +2,9 @@ from pathlib import Path
 
 import pandas as pd
 
-_REQUIRED_COLS = {
+from final_project_aksoltans.data_management.utils import check_required_columns
+
+_REQUIRED_COLS: list[str] = [
     "id",
     "continent",
     "profession",
@@ -12,10 +14,12 @@ _REQUIRED_COLS = {
     "background_pic",
     "share_mobile",
     "profile_pic",
-}
-_STRING_COLS = ["continent", "profession", "gender", "race"]
-_NUM_COLS = ["follow_diversity", "background_pic", "share_mobile"]
-_INDICATOR_COLS = [
+]
+
+_STRING_COLS: list[str] = ["continent", "profession", "gender", "race"]
+_NUM_COLS: list[str] = ["follow_diversity", "background_pic", "share_mobile"]
+
+_INDICATOR_COLS: list[str] = [
     "above_median_followers_count",
     "above_median_friends_count",
     "above_median_favourites_count",
@@ -24,7 +28,7 @@ _INDICATOR_COLS = [
     "above_median_year_created",
 ]
 
-_PROFESSION_MAP = {
+_PROFESSION_MAP: dict[str, str] = {
     "PostDoc": "Researcher",
     "Government": "Other",
     "Industry": "Other",
@@ -32,7 +36,7 @@ _PROFESSION_MAP = {
     "MultilateralOrg": "Other",
 }
 
-_CONTINENT_OTHER = {"Africa", "Asia", "LatinAmerica", "Oceania"}
+_CONTINENT_OTHER: set[str] = {"Africa", "Asia", "LatinAmerica", "Oceania"}
 
 
 def load_subject_pool_raw(path: Path) -> pd.DataFrame:
@@ -51,15 +55,8 @@ def _simplify_continents(s: pd.Series) -> pd.Series:
     return s.map(lambda x: "Other" if x in _CONTINENT_OTHER else x)
 
 
-def _check_required_columns(df: pd.DataFrame, required: set[str], *, name: str) -> None:
-    missing = required - set(df.columns)
-    if missing:
-        msg = f"{name} is missing required columns: {', '.join(sorted(missing))}"
-        raise KeyError(msg)
-
-
 def make_subject_pool_analysis_sample(subject_pool: pd.DataFrame) -> pd.DataFrame:
-    _check_required_columns(subject_pool, _REQUIRED_COLS, name="subject_pool.csv")
+    check_required_columns(subject_pool, _REQUIRED_COLS, name="subject_pool.csv")
     df = subject_pool.copy()
 
     for c in _STRING_COLS:
@@ -74,6 +71,5 @@ def make_subject_pool_analysis_sample(subject_pool: pd.DataFrame) -> pd.DataFram
         if c in df.columns:
             df[c] = pd.to_numeric(df[c], errors="coerce")
 
-    keep = list(_REQUIRED_COLS) + [c for c in _INDICATOR_COLS if c in df.columns]
-    out = df[keep].dropna(subset=_STRING_COLS).reset_index(drop=True)
-    return out
+    keep = _REQUIRED_COLS + [col for col in _INDICATOR_COLS if col in df.columns]
+    return df[keep].dropna(subset=_STRING_COLS).reset_index(drop=True)
