@@ -2,10 +2,10 @@ import pandas as pd
 from matplotlib.axes import Axes
 from matplotlib.lines import Line2D
 
-from final_project_aksoltans.analysis.plot_utils import (
+from final_project_aksoltans.config import PVAL_DISPLAY_THRESHOLD
+from final_project_aksoltans.final.plot_utils import (
     plot_bars_with_ci,
 )
-from final_project_aksoltans.config import PVAL_DISPLAY_THRESHOLD
 
 _LABELS = {
     "bot_gender": {0: "Male", 1: "Female"},

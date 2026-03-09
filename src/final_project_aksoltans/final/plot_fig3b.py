@@ -1,7 +1,7 @@
 import pandas as pd
 from matplotlib.axes import Axes
 
-from final_project_aksoltans.analysis.plot_utils import plot_forest
+from final_project_aksoltans.final.plot_utils import plot_forest
 
 _DIMS = ["bot_race", "bot_gender"]
 _DIM_LABELS = {
