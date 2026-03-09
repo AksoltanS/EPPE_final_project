@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pandas as pd
 
-# need to write docstings to all functions
+from final_project_aksoltans.data_management.utils import check_required_columns
 
 _INT_COLS: list[str] = [
     "shadow_ban",
@@ -34,28 +34,24 @@ _STR_COLS: list[str] = [
     "profession",
 ]
 
-_NUM_COLS: list[str] = _INT_COLS + _FLOAT_COLS
+_REQUIRED_COLS: list[str] = _INT_COLS + _FLOAT_COLS + _STR_COLS
 
 
 def load_follow_backs_raw(path: Path) -> pd.DataFrame:
     return pd.read_csv(path, sep=";")
 
 
-def _check_required_columns(df: pd.DataFrame, required: set[str]) -> None:
-    missing = required - set(df.columns)
-    if missing:
-        missing_str = ", ".join(sorted(missing))
-        msg = f"Missing required columns: {missing_str}"
-        raise ValueError(msg)
-
-
 def make_follow_backs_analysis_sample(raw: pd.DataFrame) -> pd.DataFrame:
-    _check_required_columns(raw, set(_NUM_COLS + _STR_COLS))
+    check_required_columns(raw, _REQUIRED_COLS, name="follow_backs.csv")
     df = pd.DataFrame(index=raw.index)
-    for col in _NUM_COLS:
+    for col in _INT_COLS:
+        df[col] = pd.to_numeric(raw[col], errors="coerce")
+    for col in _FLOAT_COLS:
         df[col] = pd.to_numeric(raw[col], errors="coerce")
     for col in _STR_COLS:
         df[col] = raw[col].astype("string")
+
     df = df[(df["shadow_ban"] == 0) & (df["Attr"] == 0)].copy()
     df[_INT_COLS] = df[_INT_COLS].astype("Int64")
+    df[_FLOAT_COLS] = df[_FLOAT_COLS].astype("Float64")
     return df
