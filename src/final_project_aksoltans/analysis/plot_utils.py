@@ -100,7 +100,7 @@ def plot_forest(
         va = "bottom" if cfg["annot_above"] else "top"
         for xi, yi, pvi in zip(xv, yv, pv, strict=False):
             p_str = (
-                "<{PVAL_DISPLAY_THRESHOLD}"
+                f"<{PVAL_DISPLAY_THRESHOLD}"
                 if pvi < PVAL_DISPLAY_THRESHOLD
                 else f"{pvi:.3f}"
             )

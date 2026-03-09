@@ -3,9 +3,9 @@ from matplotlib.axes import Axes
 from matplotlib.lines import Line2D
 
 from final_project_aksoltans.analysis.plot_utils import (
-    PVAL_THRESHOLD,
     plot_bars_with_ci,
 )
+from final_project_aksoltans.config import PVAL_DISPLAY_THRESHOLD
 
 _LABELS = {
     "bot_gender": {0: "Male", 1: "Female"},
@@ -18,7 +18,11 @@ _DODGE = 0.08
 
 
 def _fmt_p(p: float) -> str:
-    return f"<{PVAL_THRESHOLD:.3f}" if p < PVAL_THRESHOLD else f"{round(p, 3):.3f}"
+    return (
+        f"<{PVAL_DISPLAY_THRESHOLD:.3f}"
+        if p < PVAL_DISPLAY_THRESHOLD
+        else f"{round(p, 3):.3f}"
+    )
 
 
 def plot_marginal(
