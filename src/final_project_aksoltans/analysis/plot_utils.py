@@ -2,7 +2,7 @@ import pandas as pd
 from matplotlib.axes import Axes
 from matplotlib.lines import Line2D
 
-PVAL_THRESHOLD = 0.001
+from final_project_aksoltans.config import PVAL_DISPLAY_THRESHOLD
 
 
 def plot_bars_with_ci(
@@ -99,7 +99,11 @@ def plot_forest(
         y_off = +0.05 if cfg["annot_above"] else -0.05
         va = "bottom" if cfg["annot_above"] else "top"
         for xi, yi, pvi in zip(xv, yv, pv, strict=False):
-            p_str = "<0.001" if pvi < PVAL_THRESHOLD else f"{pvi:.3f}"
+            p_str = (
+                "<{PVAL_DISPLAY_THRESHOLD}"
+                if pvi < PVAL_DISPLAY_THRESHOLD
+                else f"{pvi:.3f}"
+            )
             ax.text(
                 xi,
                 yi + y_off,

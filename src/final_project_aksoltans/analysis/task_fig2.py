@@ -9,6 +9,7 @@ from final_project_aksoltans.analysis.fig2_data import (
 )
 from final_project_aksoltans.analysis.plot_fig2 import plot_controls, plot_marginal
 from final_project_aksoltans.config import (
+    BOT_VARS,
     FIG2_CONTROLS_DATA,
     FIG2_GENDER_DATA,
     FIG2_PNG,
@@ -32,7 +33,7 @@ def task_build_fig2_data(
     fb = pd.read_parquet(data)
 
     for key, path in zip(
-        ["bot_gender", "bot_race", "bot_uni"],
+        BOT_VARS,
         [FIG2_GENDER_DATA, FIG2_RACE_DATA, FIG2_UNI_DATA],
         strict=False,
     ):

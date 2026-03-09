@@ -4,15 +4,7 @@ from final_project_aksoltans.analysis.fe_ols import fe_ols
 from final_project_aksoltans.analysis.stats_helper_functions import (
     aggregate_experimental_data,
 )
-
-_BOT_VARS = ["bot_gender", "bot_race", "bot_uni"]
-_CONTROLS = [
-    "above_median_year_created",
-    "follow_diversity",
-    "background_pic",
-    "above_median_followers_count",
-    "above_median_friends_count",
-]
+from final_project_aksoltans.config import BOT_VARS, CONTROLS_CONTINUOUS
 
 
 def build_fig2_marginals(df: pd.DataFrame) -> dict[str, pd.DataFrame]:
@@ -20,13 +12,13 @@ def build_fig2_marginals(df: pd.DataFrame) -> dict[str, pd.DataFrame]:
         col: aggregate_experimental_data(df, [col])
         .sort_values(col)
         .reset_index(drop=True)
-        for col in _BOT_VARS
+        for col in BOT_VARS
     }
 
 
 def _regressors(df: pd.DataFrame, *, controls: bool) -> tuple[pd.DataFrame, list[str]]:
     if not controls:
-        return df, _BOT_VARS
+        return df, BOT_VARS
 
     df = df.copy()
     dummy_cols: list[str] = []
@@ -36,8 +28,8 @@ def _regressors(df: pd.DataFrame, *, controls: bool) -> tuple[pd.DataFrame, list
             df[c] = dummies[c]
         dummy_cols += list(dummies.columns)
 
-    continuous = [c for c in _CONTROLS if c in df.columns]
-    return df, _BOT_VARS + dummy_cols + continuous
+    continuous = [c for c in CONTROLS_CONTINUOUS if c in df.columns]
+    return df, BOT_VARS + dummy_cols + continuous
 
 
 def build_fig2_controls_data(fb: pd.DataFrame) -> pd.DataFrame:
@@ -46,7 +38,7 @@ def build_fig2_controls_data(fb: pd.DataFrame) -> pd.DataFrame:
         df, regs = _regressors(fb.copy(), controls=controls)
         res, *_ = fe_ols(df, y="FollowBacks", regressors=regs)
         label = "Yes" if controls else "No"
-        for coef in _BOT_VARS:
+        for coef in BOT_VARS:
             r = res[coef]
             rows.append(
                 {
