@@ -33,6 +33,14 @@ _STR_COLS: list[str] = [
     "continent",
     "profession",
 ]
+_KEY_COLS: list[str] = [
+    "FollowBacks",
+    "treat",
+    "bot_gender",
+    "bot_race",
+    "bot_uni",
+    "treat_names",
+]
 
 _REQUIRED_COLS: list[str] = _INT_COLS + _FLOAT_COLS + _STR_COLS
 
@@ -54,4 +62,5 @@ def make_follow_backs_analysis_sample(raw: pd.DataFrame) -> pd.DataFrame:
     df = df[(df["shadow_ban"] == 0) & (df["Attr"] == 0)].copy()
     df[_INT_COLS] = df[_INT_COLS].astype("Int64")
     df[_FLOAT_COLS] = df[_FLOAT_COLS].astype("Float64")
-    return df
+    df[_STR_COLS] = df[_STR_COLS].astype("string")
+    return df.dropna(subset=_KEY_COLS).reset_index(drop=True)
