@@ -12,6 +12,8 @@ from final_project_aksoltans.data_management.clean_subject_pool import (
 
 _EXPECTED_FOLLOW_BACKS_ROWS = 2
 
+_EXPECTED_SUBJECT_POOL_COLS_START = ["id", "continent", "profession", "gender", "race"]
+
 
 @pytest.fixture
 def raw_follow_backs() -> pd.DataFrame:
@@ -42,32 +44,6 @@ def raw_follow_backs() -> pd.DataFrame:
     )
 
 
-def test_follow_backs_filters_shadow_ban_and_attr(
-    raw_follow_backs: pd.DataFrame,
-) -> None:
-    out = make_follow_backs_analysis_sample(raw_follow_backs)
-    assert out.shape[0] == _EXPECTED_FOLLOW_BACKS_ROWS
-    assert (out["shadow_ban"] == 0).all()
-    assert (out["Attr"] == 0).all()
-    assert (out["shadow_ban"] == 0).all()
-    assert (out["Attr"] == 0).all()
-
-
-def test_follow_backs_int_cols_dtype(raw_follow_backs: pd.DataFrame) -> None:
-    out = make_follow_backs_analysis_sample(raw_follow_backs)
-    assert out["bot_gender"].dtype == "Int64"
-    assert out["wave"].dtype == "Int64"
-
-
-def test_follow_backs_raises_on_missing_column(
-    raw_follow_backs: pd.DataFrame,
-) -> None:
-    with pytest.raises(ValueError, match="Missing required columns"):
-        make_follow_backs_analysis_sample(
-            raw_follow_backs.drop(columns=["FollowBacks"])
-        )
-
-
 @pytest.fixture
 def raw_subject_pool() -> pd.DataFrame:
     return pd.DataFrame(
@@ -83,6 +59,35 @@ def raw_subject_pool() -> pd.DataFrame:
             "profile_pic": [1, 1, 0, 1],
         }
     )
+
+
+def test_follow_backs_filters_shadow_ban_and_attr(
+    raw_follow_backs: pd.DataFrame,
+) -> None:
+    out = make_follow_backs_analysis_sample(raw_follow_backs)
+    assert out.shape[0] == _EXPECTED_FOLLOW_BACKS_ROWS
+    assert (out["shadow_ban"] == 0).all()
+    assert (out["Attr"] == 0).all()
+
+
+@pytest.mark.parametrize("col", ["bot_gender", "wave", "above_median_followers_count"])
+def test_follow_backs_int_cols_dtype(raw_follow_backs: pd.DataFrame, col: str) -> None:
+    out = make_follow_backs_analysis_sample(raw_follow_backs)
+    assert out[col].dtype == "Int64"
+
+
+def test_follow_backs_float_col_dtype(raw_follow_backs: pd.DataFrame) -> None:
+    out = make_follow_backs_analysis_sample(raw_follow_backs)
+    assert out["FollowBacks"].dtype == "Float64"
+
+
+def test_follow_backs_raises_on_missing_column(
+    raw_follow_backs: pd.DataFrame,
+) -> None:
+    with pytest.raises(ValueError, match="is missing required columns"):
+        make_follow_backs_analysis_sample(
+            raw_follow_backs.drop(columns=["FollowBacks"])
+        )
 
 
 def test_simplify_professions() -> None:
@@ -112,3 +117,17 @@ def test_subject_pool_drops_rows_with_missing_string_cols(
     df.loc[0, "gender"] = None
     out = make_subject_pool_analysis_sample(df)
     assert out.shape[0] == raw_subject_pool.shape[0] - 1
+
+
+def test_subject_pool_column_order(raw_subject_pool: pd.DataFrame) -> None:
+    out = make_subject_pool_analysis_sample(raw_subject_pool)
+    assert list(out.columns[: len(_EXPECTED_SUBJECT_POOL_COLS_START)]) == (
+        _EXPECTED_SUBJECT_POOL_COLS_START
+    )
+
+
+def test_subject_pool_raises_on_missing_column(
+    raw_subject_pool: pd.DataFrame,
+) -> None:
+    with pytest.raises(ValueError, match="is missing required columns"):
+        make_subject_pool_analysis_sample(raw_subject_pool.drop(columns=["race"]))
