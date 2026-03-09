@@ -35,11 +35,12 @@ def task_build_table1a(
 
     t1a = build_table1a(subjects)
     produces.parent.mkdir(parents=True, exist_ok=True)
-    t1a.drop(columns="variable").to_latex(
+    t1a.drop(columns=["variable", "indent"]).to_latex(
         produces,
         index=False,
         header=["Variables", "% Classified", "N", "%"],
         na_rep="",
+        float_format="%.2f",
     )
 
 
