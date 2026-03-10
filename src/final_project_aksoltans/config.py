@@ -6,8 +6,6 @@ SRC: Path = Path(__file__).parent.resolve()
 ROOT: Path = SRC.joinpath("..", "..").resolve()
 BLD: Path = ROOT.joinpath("bld").resolve()
 
-DOCUMENTS = ROOT.joinpath("documents").resolve()
-
 DATA_RAW = SRC / "data" / "raw"
 
 FOLLOW_BACKS_RAW = DATA_RAW / "follow_backs.csv"

@@ -120,7 +120,7 @@ docs = { features = [ "docs" ], solve-group = "default" }
 # ======================================================================================
 
 [tool.pytask.ini_options]
-paths = [ "./src/final_project_aksoltans", "./documents" ]
+paths = [ "./src/final_project_aksoltans" ]
 pdbcls = "pdbp:Pdb"
 
 # ======================================================================================
