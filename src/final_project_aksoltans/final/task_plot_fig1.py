@@ -12,6 +12,13 @@ def task_plot_fig1(
     data: Path = FIG1_DATA,
     produces: Path = FIG1_PNG,
 ) -> None:
+    """Plot and save Figure 1.
+
+    Args:
+        script: Path to this script, used for pytask dependency tracking.
+        data: Path to the Figure 1 CSV file.
+        produces: Path where the Figure 1 PNG is saved.
+    """
     df = pd.read_csv(data)
     fig = plot_fig1(df)
     produces.parent.mkdir(parents=True, exist_ok=True)

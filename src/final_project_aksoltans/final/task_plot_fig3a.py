@@ -12,6 +12,13 @@ def task_plot_fig3a(
     data: Path = FIG3A_DATA,
     produces: Path = FIG3A_PNG,
 ) -> None:
+    """Plot and save Figure 3a.
+
+    Args:
+        script: Path to this script, used for pytask dependency tracking.
+        data: data: Path to the Figure 3a CSV file.
+        produces: Path where the Figure 3a PNG is saved.
+    """
     df = pd.read_csv(data)
     fig, axes = plt.subplots(1, 2, figsize=(17.72, 5.91), sharey=True)
     plot_fig3a(list(axes), df)

@@ -24,6 +24,13 @@ def task_plot_fig2(
     ),
     produces: Path = FIG2_PNG,
 ) -> None:
+    """Plot and save Figure 2.
+
+    Args:
+        script: Path to this script, used for pytask dependency tracking.
+        data: Paths to the gender, race, university, and controls CSV files.
+        produces: Path where the Figure 2 PNG is saved.
+    """
     gender_df = pd.read_csv(FIG2_GENDER_DATA)
     race_df = pd.read_csv(FIG2_RACE_DATA)
     uni_df = pd.read_csv(FIG2_UNI_DATA)
