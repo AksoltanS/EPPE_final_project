@@ -27,6 +27,13 @@ def task_build_fig2_data(
         FIG2_CONTROLS_DATA,
     ),
 ) -> None:
+    """Build and save the aggregated data for Figure 2.
+
+    Args:
+        script: Path to this script, used for pytask dependency tracking.
+        data: Path to the cleaned follow-backs parquet file.
+        produces: Tuple of paths where the Figure 2 CSV files are saved.
+    """
     fb = pd.read_parquet(data)
 
     for key, path in zip(

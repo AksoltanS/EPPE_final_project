@@ -15,8 +15,14 @@ def task_build_fig1_data(
     data: Path = FOLLOW_BACKS_ANALYSIS,
     produces: Path = FIG1_DATA,
 ) -> None:
+    """Build and save the aggregated data for Figure 1.
+
+    Args:
+        script: Path to this script, used for pytask dependency tracking.
+        data: Path to the cleaned follow-backs parquet file.
+        produces: Path where the Figure 1 CSV is saved.
+    """
     df = pd.read_parquet(data)
     fig1 = build_fig1_data(df)
-
     produces.parent.mkdir(parents=True, exist_ok=True)
     fig1.to_csv(produces, index=False)
