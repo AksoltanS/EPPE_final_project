@@ -1,68 +1,77 @@
-# Final Project Topic: Discrimination in the Formation of Academic Networks: A Field Experiment on #EconTwitter
-
-Paper link: https://www.aeaweb.org/articles?id=10.1257/aeri.20240298
-
-Goal: Reproduce at least one main table/figure from the paper using the official
-replication package, implementing the full pipeline entirely in Python (cleaning →
-constructing country-year measures → analysis → figure/table export) with a reproducible
-Pixi environment, pytask workflow, and tests.
-
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/i9Zy4NKR)
 
-# Econ Project Templates: Modern, Reproducible Research in Economics
+# Replication: Discrimination in the Formation of Academic Networks: A Field Experiment on #EconTwitter
 
-![MIT license](https://img.shields.io/github/license/OpenSourceEconomics/econ-project-templates)
-[![Documentation Status](https://readthedocs.org/projects/econ-project-templates/badge/?version=stable)](https://econ-project-templates.readthedocs.io/en/stable/)
-[![image](https://github.com/iame-uni-bonn/final-project-AksoltanS.git/actions/workflows/main.yml/badge.svg)](https://github.com/iame-uni-bonn/final-project-AksoltanS.git/actions/workflows/main.yml)
-[![pre-commit.ci status](https://results.pre-commit.ci/badge/github/OpenSourceEconomics/econ-project-templates/main.svg)](https://results.pre-commit.ci/latest/github/OpenSourceEconomics/econ-project-templates/main)
+**Paper:** Ajzenman, N., Ferman, B., & Sant'Anna, P. C. (2024). Discrimination in the
+Formation of Academic Networks: A Field Experiment on #EconTwitter. *American Economic
+Review: Insights*. https://www.aeaweb.org/articles?id=10.1257/aeri.20240298
 
-This project provides a "batteries-included" template for economists to produce fully
-reproducible research. It replaces fragile, manual workflows with a robust, automated
-pipeline.
+## Description
 
-## Why Reproducibility?
+A Python replication of the main figures and tables from Ajzenman, Ferman, and Sant'Anna
+(2024), which studies whether economists on Twitter discriminate in follow-back behavior
+based on the gender, race, and university affiliation of bot accounts. Replicated
+outputs:
 
-Reproducibility is about **your peace of mind**. It means knowing that if you find a
-mistake in your raw data three days before submission, you can re-run your entire
-project—tables, figures, and paper—with a single command. It means your future self (and
-your co-authors) can understand and run your code on a new machine without spending a
-week fighting dependency hell.
+- Figure 1
+- Figure 2
+- Figure 3a
+- Figure 3b
+- Table 1a
+- Table 1b
 
-## Quick Start (The "Magic" Moment)
+## Data
 
-Experience the reproducibility of this template in less than five minutes:
+Raw data is not included due to file size. Download the raw data files from:
 
-1. **Install [Pixi](https://pixi.sh/)** (our only prerequisite).
-1. **Clone this repository**.
-1. **Run and view the results**:
+[Google Drive - Replication Data](https://drive.google.com/drive/folders/1YhsL6-wsv-rxwWQq2sp3aV1bPvUlOH2e?usp=sharing)
 
-```bash
-# View the research paper in your browser
-pixi run view-paper
+Alternatively, download from the official replication package:
+https://www.openicpsr.org/openicpsr/project/210084/version/V1/view From the data folder,
+download:
 
-# View the presentation slides
-pixi run view-pres
-```
+- follow_backs.csv
+- subject_pool.csv
+- subject_pool_scrambled.csv
 
-These commands automatically handle environment setup, data cleaning, analysis, and
-launching the output servers.
+Place all three data files in 'src/final_project_aksoltans/data/raw/'.
 
-## Documentation
+## Setup
 
-Full documentation is available at
-[econ-project-templates.readthedocs.io](https://econ-project-templates.readthedocs.io/).
+Install [Pixi](https://pixi.sh/), then: bash pixi install pixi run pytask pixi run
+pytest
 
-## Contributing
+Outputs are saved to 'bld/figures/ and bld/tables/'.
 
-We welcome suggestions on anything from improving the documentation to reporting bugs
-and requesting new features. Please open an
-[issue](https://github.com/iame-uni-bonn/final-project-AksoltanS.git/issues) in these
-cases.
+## Project structure
 
-### Contributors
+src/final_project_aksoltans/ ├── config.py ← shared paths and constants ├──
+data_management/ ← data cleaning │ ├── clean_follow_backs.py │ ├── clean_subject_pool.py
+│ └── task_clean\_*.py ├── analysis/ ← regression engine and data builders │ ├──
+fe_ols.py ← replicates R feols() from fixest │ ├── fig*\_data.py │ ├── table1_data.py │
+└── task_fig\*.py └── final/ ← plotting ├── plot_fig\*.py └── task_plot_fig\*.py bld/ ←
+generated outputs ├── data/ ← cleaned parquet files ├── figures/ ← PNG figures └──
+tables/ ← LaTeX tables tests/ ├── analysis/ └── data_management/
 
-@hmgaudecker @timmens
+## Regression engine
 
-### Former Contributor and Creator of pytask
+fe_ols.py replicates R's feols() from the fixest package, including the ssc()
+small-sample correction for clustered standard errors and alternating projections for
+fixed-effects absorption.
 
-@tobiasraabe
+| Paper/R notation | Python variable |
+| ---------------- | --------------- |
+| Y                | y_vec           |
+| X̃                | x_full          |
+| G                | g_clusters      |
+| K_FE             | k_fe            |
+| V̂_k              | vcov_keep       |
+| V̂                | vcov            |
+
+## Credits
+
+Ajzenman, N., Ferman, B., & Sant'Anna, P. C. (2024). Discrimination in the Formation of
+Academic Networks: A Field Experiment on #EconTwitter. *American Economic Review:
+Insights*, 6(4), 501–519. Replication package:
+https://www.openicpsr.org/openicpsr/project/210084/version/V1/view Project template:
+https://github.com/OpenSourceEconomics/econ-project-templates
