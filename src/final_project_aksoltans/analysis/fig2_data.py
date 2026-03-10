@@ -8,6 +8,14 @@ from final_project_aksoltans.config import BOT_VARS, CONTROLS_CONTINUOUS
 
 
 def build_fig2_marginals(df: pd.DataFrame) -> dict[str, pd.DataFrame]:
+    """Aggregate follow-backs by each bot variable for Figure 2 marginal plots.
+
+    Args:
+        df: Cleaned follow-backs DataFrame.
+
+    Returns:
+        Mapping each bot variable to a sorted aggregated DataFrame.
+    """
     return {
         col: aggregate_experimental_data(df, [col])
         .sort_values(col)
@@ -17,6 +25,7 @@ def build_fig2_marginals(df: pd.DataFrame) -> dict[str, pd.DataFrame]:
 
 
 def _regressors(df: pd.DataFrame, *, controls: bool) -> tuple[pd.DataFrame, list[str]]:
+    """Return the DataFrame and regressor list, optionally with controls."""
     if not controls:
         return df, BOT_VARS
 
@@ -33,6 +42,14 @@ def _regressors(df: pd.DataFrame, *, controls: bool) -> tuple[pd.DataFrame, list
 
 
 def build_fig2_controls_data(fb: pd.DataFrame) -> pd.DataFrame:
+    """Run FE-OLS with and without controls, returning estimates for each bot variable.
+
+    Args:
+        fb: Cleaned follow-backs DataFrame.
+
+    Returns:
+        DataFrame with one row per bot variable and control specification.
+    """
     rows = []
     for controls in (False, True):
         df, regs = _regressors(fb.copy(), controls=controls)

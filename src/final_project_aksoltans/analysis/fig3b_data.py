@@ -14,11 +14,22 @@ _DIMS = ["bot_gender", "bot_race"]
 
 
 def build_fig3b_data(fb: pd.DataFrame, alpha: float = 0.05) -> pd.DataFrame:
-    df = fb.copy()
+    """Estimate heterogeneity in bot_uni effect by gender and race for Figure 3b.
 
+    Centers continuous controls, constructs bot_uni interaction terms, runs
+    FE-OLS, and returns main effects and interaction estimates with confidence
+    intervals.
+
+    Args:
+        fb: Cleaned follow-backs DataFrame.
+        alpha: Significance level for confidence intervals.
+
+    Returns:
+        DataFrame with one row per dimension and level (0, 1, int).
+    """
+    df = fb.copy()
     centre_cols = [c for c in _CENTRE_COLS if c in df.columns]
     df[centre_cols] = df[centre_cols].astype(float) - df[centre_cols].mean()
-
     interact = {b: f"bot_uni_x_{b}" for b in _DIMS}
     for b, iv in interact.items():
         df[iv] = df["bot_uni"].astype(float) * df[b].astype(float)
@@ -45,6 +56,7 @@ def build_fig3b_data(fb: pd.DataFrame, alpha: float = 0.05) -> pd.DataFrame:
     t_crit = stats.t.ppf(1 - alpha / 2, df=g_clusters - 1)
 
     def _row(dim, x_label, est, se):
+        """Build a result row with estimate, CI bounds, and p-value."""
         t = est / se if se > 0 else np.nan
         p = float(2 * (1 - stats.t.cdf(abs(t), df=g_clusters - 1)))
         return {
