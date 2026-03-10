@@ -12,8 +12,15 @@ def task_clean_subject_pool_data(
     data: Path = SUBJECT_POOL_RAW,
     produces: Path = SUBJECT_POOL_ANALYSIS,
 ) -> None:
+    """Load and clean the raw subject pool data, saving the result to parquet.
+
+    Args:
+        script: Path to this script, used for pytask dependency tracking.
+        data: Path to the raw subject_pool.csv file.
+        produces: Path where the cleaned parquet file is saved.
+
+    """
     raw = load_subject_pool_raw(data)
     clean = make_subject_pool_analysis_sample(raw)
-
     produces.parent.mkdir(parents=True, exist_ok=True)
     clean.to_parquet(produces, index=False)
