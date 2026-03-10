@@ -24,11 +24,11 @@ _TABLE1B_DEPS = {
 
 def task_build_table1a(
     script: Path = SRC / "analysis" / "task_table1.py",
-    depends_on: dict[str, Path] = _TABLE1A_DEPS,
+    data: dict[str, Path] = _TABLE1A_DEPS,
     produces: Path = TABLE1A_TEX,
 ) -> None:
-    subjects = pd.read_csv(depends_on["subjects"])
-    scrambled = pd.read_csv(depends_on["scrambled"])
+    subjects = pd.read_csv(data["subjects"])
+    scrambled = pd.read_csv(data["scrambled"])
     for col in ("TopUni_10", "verified", "continent"):
         if col in scrambled.columns and col not in subjects.columns:
             subjects[col] = scrambled[col].to_numpy()
@@ -46,11 +46,11 @@ def task_build_table1a(
 
 def task_build_table1b(
     script: Path = SRC / "analysis" / "task_table1.py",
-    depends_on: dict[str, Path] = _TABLE1B_DEPS,
+    data: dict[str, Path] = _TABLE1B_DEPS,
     produces: Path = TABLE1B_TEX,
 ) -> None:
-    scrambled = pd.read_csv(depends_on["scrambled"])
-    subjects_raw = pd.read_csv(depends_on["subjects"])
+    scrambled = pd.read_csv(data["scrambled"])
+    subjects_raw = pd.read_csv(data["subjects"])
     if "share_mobile" in subjects_raw.columns:
         scrambled["share_mobile"] = (
             pd.to_numeric(subjects_raw["share_mobile"], errors="coerce").to_numpy()
