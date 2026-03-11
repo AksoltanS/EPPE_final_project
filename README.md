@@ -13,12 +13,12 @@ A Python replication of the main figures and tables from Ajzenman, Ferman, and S
 based on the gender, race, and university affiliation of bot accounts. Replicated
 outputs:
 
-- Figure 1
-- Figure 2
-- Figure 3a
-- Figure 3b
-- Table 1a
-- Table 1b
+- Figure 1 — Follow-back rates by treatment level
+- Figure 2 — Marginal effects by bot gender, race, and university affiliation
+- Figure 3a — Follow-back rates across all bot variable combinations
+- Figure 3b — Heterogeneity in university effect by bot gender and race
+- Table 1a — Descriptive statistics: qualitative variables
+- Table 1b — Descriptive statistics: quantitative variables
 
 ## Data
 
@@ -35,6 +35,13 @@ download:
 - subject_pool_scrambled.csv
 
 Place all three data files in `src/final_project_aksoltans/data/raw/`
+
+## Data Note
+
+Due to privacy restrictions, the replication package does not include the original data
+used for Table 1a and Table 1b. Instead it provides `subject_pool_scrambled.csv`, an
+anonymized version of the private data. As a result, Table 1a and Table 1b may differ
+slightly from the published paper.
 
 ## Setup
 
@@ -99,7 +106,10 @@ as follows:
 
 Ajzenman, N., Ferman, B., & Sant'Anna, P. C. (2024). Discrimination in the Formation of
 Academic Networks: A Field Experiment on #EconTwitter. *American Economic Review:
-Insights*, 6(4), 501–519. Replication package:
-https://www.openicpsr.org/openicpsr/project/210084/version/V1/view
+Insights*, 6(4), 501–519.
+
+Replication package: https://www.openicpsr.org/openicpsr/project/210084/version/V1/view
 
 Project template: https://github.com/OpenSourceEconomics/econ-project-templates
+
+Author: Aksoltan Seyidova — EPP Final Project, University of Bonn, 2025/26
