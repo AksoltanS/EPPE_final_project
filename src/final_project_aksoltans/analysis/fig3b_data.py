@@ -55,7 +55,12 @@ def build_fig3b_data(fb: pd.DataFrame, alpha: float = 0.05) -> pd.DataFrame:
     idx = {name: i for i, name in enumerate(regs)}
     t_crit = stats.t.ppf(1 - alpha / 2, df=g_clusters - 1)
 
-    def _row(dim, x_label, est, se):
+    def _row(
+        dim: str,
+        x_label: str,
+        est: float,
+        se: float,
+    ) -> dict[str, object]:
         """Build a result row with estimate, CI bounds, and p-value."""
         t = est / se if se > 0 else np.nan
         p = float(2 * (1 - stats.t.cdf(abs(t), df=g_clusters - 1)))
@@ -78,9 +83,9 @@ def build_fig3b_data(fb: pd.DataFrame, alpha: float = 0.05) -> pd.DataFrame:
         se_int = (res[iv]["ci_high"] - res[iv]["ci_low"]) / (2 * t_crit)
         se_b1 = float(np.sqrt(max(vcov[ib, ib] + vcov[ii, ii] + 2 * vcov[ib, ii], 0.0)))
         rows += [
-            _row(b, "0", b0, se_b0),
-            _row(b, "1", b0 + b_int, se_b1),
-            _row(b, "int", b_int, se_int),
+            _row(b, "0", float(b0), float(se_b0)),
+            _row(b, "1", float(b0 + b_int), float(se_b1)),
+            _row(b, "int", float(b_int), float(se_int)),
         ]
 
     return pd.DataFrame(rows)
