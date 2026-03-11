@@ -14,6 +14,12 @@ _X_POS = np.array([0, 1], dtype=float)
 
 
 def plot_fig3a(axes: list[Axes], df: pd.DataFrame) -> None:
+    """Plot follow-back rates by race and university, split by bot gender.
+
+    Args:
+        axes: Two axes, one per gender group.
+        df: Aggregated Figure 3a data from 'build_fig3a_data'.
+    """
     for ax in axes:
         ax.grid(axis="y", alpha=0.25)
         ax.set_axisbelow(True)

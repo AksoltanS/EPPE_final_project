@@ -34,6 +34,12 @@ _SERIES = {
 
 
 def plot_fig3b(ax: Axes, df: pd.DataFrame) -> None:
+    """Plot heterogeneity in bot_uni effect by gender and race for Figure 3b.
+
+    Args:
+        ax: Axes to draw on.
+        df: Estimates data from 'build_fig3b_data'.
+    """
     plot_forest(
         ax=ax,
         df=df,

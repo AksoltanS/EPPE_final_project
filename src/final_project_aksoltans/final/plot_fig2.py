@@ -18,6 +18,7 @@ _DODGE = 0.08
 
 
 def _fmt_p(p: float) -> str:
+    """Format a p-value for display, using a threshold for small values."""
     return (
         f"<{PVAL_DISPLAY_THRESHOLD:.3f}"
         if p < PVAL_DISPLAY_THRESHOLD
@@ -28,6 +29,15 @@ def _fmt_p(p: float) -> str:
 def plot_marginal(
     ax: Axes, df: pd.DataFrame, group_col: str, xlabel: str, ylabel: str
 ) -> None:
+    """Plot follow-back rates by a single bot variable.
+
+    Args:
+        ax: Axes to draw on.
+        df: Aggregated data for one bot variable.
+        group_col: Column used to group bars (e.g. bot_gender).
+        xlabel: x-axis label.
+        ylabel: y-axis label.
+    """
     df = df.copy()
     df["label"] = df[group_col].map(_LABELS[group_col])
     plot_bars_with_ci(
@@ -45,6 +55,12 @@ def plot_marginal(
 
 
 def plot_controls(ax: Axes, df: pd.DataFrame) -> None:
+    """Plot FE-OLS estimates with and without controls for Figure 2.
+
+    Args:
+        ax: Axes to draw on.
+        df: Controls data from 'build_fig2_controls_data'.
+    """
     coef_order = ["bot_uni", "bot_race", "bot_gender"]
     coef_to_y = {c: i for i, c in enumerate(coef_order)}
     coef_labels = {

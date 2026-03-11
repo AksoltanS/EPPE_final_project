@@ -17,6 +17,14 @@ _TREAT_LABELS = {
 
 
 def plot_fig1(df: pd.DataFrame) -> Figure:
+    """Plot follow-back rates by treatment group for Figure 1.
+
+    Args:
+        df: Aggregated Figure 1 data from 'build_fig1_data'.
+
+    Returns:
+        Matplotlib figure with bars sorted by follow-back rate.
+    """
     df = df.copy()
     df["treat"] = pd.to_numeric(df["treat"], errors="coerce").astype("Int64")
     df["label"] = df["treat"].map(_TREAT_LABELS)

@@ -20,6 +20,22 @@ def plot_bars_with_ci(
     width: float = 0.9,
     capsize: float = 6,
 ) -> None:
+    """Draw a bar chart with confidence interval error bars.
+
+    Args:
+        ax: Axes to draw on.
+        df: DataFrame with the columns specified below.
+        y_col: Column for bar heights.
+        ci_low_col: Column for lower confidence bound.
+        ci_high_col: Column for upper confidence bound.
+        x_labels: Optional tick labels for the x-axis.
+        ylim: Optional y-axis limits.
+        show_value_labels: Whether to print values inside bars.
+        bar_color: Fill color for bars.
+        edge_color: Edge color for bars.
+        width: Bar width.
+        capsize: Error bar cap size.
+    """
     x = range(len(df))
     y = df[y_col].to_numpy(dtype=float)
     yerr_low = (df[y_col] - df[ci_low_col]).to_numpy(dtype=float)
@@ -51,7 +67,6 @@ def plot_bars_with_ci(
         ax.set_ylim(*ylim)
 
 
-# plot for fig2 controls
 def plot_forest(
     ax: Axes,
     df: pd.DataFrame,
@@ -69,6 +84,25 @@ def plot_forest(
     ci_high_col: str = "CIhigh",
     pval_col: str = "pval",
 ) -> None:
+    """Draw a forest plot with point estimates, confidence intervals, and p-values.
+
+    Args:
+        ax: Axes to draw on.
+        df: Estimates DataFrame with dim, x, estimate, CI, and p-value columns.
+        dims: Dimension names to plot on the y-axis.
+        dim_labels: Display labels for each dimension.
+        series: Config dict per x-level with color, marker, dodge, and label.
+        legend_title: Title for the legend.
+        xlim: x-axis limits.
+        ylim: y-axis limits.
+        grey_band_rows: y-range for the shaded background band.
+        dim_col: Column identifying the dimension.
+        x_col: Column identifying the series level.
+        est_col: Column with point estimates.
+        ci_low_col: Column with lower confidence bounds.
+        ci_high_col: Column with upper confidence bounds.
+        pval_col: Column with p-values.
+    """
     dim_to_y = {d: i for i, d in enumerate(dims)}
     ax.axhspan(*grey_band_rows, color="grey", alpha=0.12, zorder=0)
     ax.axvline(0, linestyle="--", color="black", linewidth=0.8, zorder=1)
