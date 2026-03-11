@@ -27,6 +27,16 @@ def task_build_table1a(
     data: dict[str, Path] = _TABLE1A_DEPS,
     produces: Path = TABLE1A_TEX,
 ) -> None:
+    """Build and save Table 1a as a LaTeX file.
+
+    Merges TopUni_10, verified, and continent from the scrambled dataset
+    into the subject pool before building the table.
+
+    Args:
+        script: Path to this script, used for pytask dependency tracking.
+        data: Paths to the subject pool and scrambled CSV files.
+        produces: Path where the Table 1a LaTeX file is saved.
+    """
     subjects = pd.read_csv(data["subjects"])
     scrambled = pd.read_csv(data["scrambled"])
     for col in ("TopUni_10", "verified", "continent"):
@@ -49,6 +59,16 @@ def task_build_table1b(
     data: dict[str, Path] = _TABLE1B_DEPS,
     produces: Path = TABLE1B_TEX,
 ) -> None:
+    """Build and save Table 1b as a LaTeX file.
+
+    Pulls share_mobile from the subject pool and scales it to percentages
+    before building the table.
+
+    Args:
+        script: Path to this script, used for pytask dependency tracking.
+        data: Paths to the scrambled and subject pool CSV files.
+        produces: Path where the Table 1b LaTeX file is saved.
+    """
     scrambled = pd.read_csv(data["scrambled"])
     subjects_raw = pd.read_csv(data["subjects"])
     if "share_mobile" in subjects_raw.columns:

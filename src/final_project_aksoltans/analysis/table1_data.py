@@ -27,12 +27,14 @@ _PROF_DOUBLE_INDENT: set[str] = set(_PROF_SUBTYPES)
 
 
 def _normalize_level(val: object) -> str:
+    """Return a string representation of a categorical level."""
     if isinstance(val, bool):
         return str(val).upper()
     return str(val)
 
 
 def _var_block(data: pd.DataFrame, var: str) -> pd.DataFrame:
+    """Build a summary block for one qualitative variable."""
     col = data[var] if var in data.columns else pd.Series(dtype=object)
     pct_classified = (
         round(100 * col.notna().mean(), 2) if len(col) > 0 else float("nan")
@@ -67,6 +69,17 @@ def _var_block(data: pd.DataFrame, var: str) -> pd.DataFrame:
 
 
 def build_table1a(subjects: pd.DataFrame) -> pd.DataFrame:
+    """Build the qualitative summary block for Table 1a.
+
+    Computes counts and shares for each categorical variable, with custom
+    ordering and indentation for profession and race.
+
+    Args:
+        subjects: Subject pool DataFrame with qualitative columns.
+
+    Returns:
+        DataFrame with one row per variable level, ready for LaTeX export.
+    """
     blocks = []
     for v in TABLE1_QUAL_VARS:
         if v not in subjects.columns:
@@ -109,6 +122,17 @@ def build_table1a(subjects: pd.DataFrame) -> pd.DataFrame:
 
 
 def build_table1b(scrambled: pd.DataFrame) -> pd.DataFrame:
+    """Build the quantitative summary block for Table 1b.
+
+    Computes mean, standard deviation, median, min, max, and observation
+    count for each quantitative variable.
+
+    Args:
+        scrambled: Anonymized subject pool DataFrame with quantitative columns.
+
+    Returns:
+        DataFrame with one row per variable, ready for LaTeX export.
+    """
     rows: list[dict[str, object]] = []
     for v in TABLE1_QUANT_VARS:
         if v not in scrambled.columns:

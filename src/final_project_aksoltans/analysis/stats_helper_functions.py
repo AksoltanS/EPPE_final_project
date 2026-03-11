@@ -6,6 +6,7 @@ _MIN_GROUP_SIZE = 2
 
 
 def _mean_ci_t(x: pd.Series, alpha: float = 0.05) -> tuple[float, float, float]:
+    """Return the mean and t-based confidence interval for a series."""
     mean = float(x.mean())
     if x.size < _MIN_GROUP_SIZE:
         return mean, np.nan, np.nan
@@ -20,6 +21,17 @@ def aggregate_experimental_data(
     value_col: str = "FollowBacks",
     out_col: str = "pct_flwback",
 ) -> pd.DataFrame:
+    """Aggregate follow-back rates and confidence intervals by group.
+
+    Args:
+        df: Analysis DataFrame.
+        group_cols: Columns to group by.
+        value_col: Column containing the outcome values.
+        out_col: Name of the mean column in the output.
+
+    Returns:
+        DataFrame with one row per group containing out_col, ciL, and ciH.
+    """
     rows: list[dict[str, object]] = []
     for keys, g in df.groupby(group_cols, sort=True):
         key_tuple = keys if isinstance(keys, tuple) else (keys,)

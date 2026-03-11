@@ -4907,8 +4907,8 @@ packages:
   timestamp: 1756729456476
 - pypi: ./
   name: final-project-aksoltans
-  version: 0.1.dev70+g122f394ca.d20260310
-  sha256: 071cd5a6a76a4e2a332b63c2fcefe397bc215bb031dfa45fbeca1ab2fa76a993
+  version: 0.1.dev77+gbf81ce746.d20260310
+  sha256: 079ce4ddabf786e7922fe70a4903d2725a5e0ad16828aa7339ba2757de9296b6
   requires_python: ==3.14
   editable: true
 - conda: https://conda.anaconda.org/conda-forge/noarch/font-ttf-dejavu-sans-mono-2.37-hab24e00_0.tar.bz2
