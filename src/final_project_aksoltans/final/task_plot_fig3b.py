@@ -16,7 +16,7 @@ def task_plot_fig3b(
 
     Args:
         script: Path to this script, used for pytask dependency tracking.
-        data:data: Path to the Figure 3b CSV file.
+        data: Path to the Figure 3b CSV file.
         produces: Path where the Figure 3b PNG is saved.
     """
     df = pd.read_csv(data)

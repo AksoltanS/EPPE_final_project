@@ -35,6 +35,9 @@ def plot_bars_with_ci(
         edge_color: Edge color for bars.
         width: Bar width.
         capsize: Error bar cap size.
+
+    Returns:
+        None. Plots directly onto the provided Axes object.
     """
     x = range(len(df))
     y = df[y_col].to_numpy(dtype=float)
@@ -102,6 +105,9 @@ def plot_forest(
         ci_low_col: Column with lower confidence bounds.
         ci_high_col: Column with upper confidence bounds.
         pval_col: Column with p-values.
+
+    Returns:
+        None. Plots directly onto the provided Axes object.
     """
     dim_to_y = {d: i for i, d in enumerate(dims)}
     ax.axhspan(*grey_band_rows, color="grey", alpha=0.12, zorder=0)
