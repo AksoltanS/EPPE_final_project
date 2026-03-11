@@ -21,10 +21,10 @@ classifiers = [
   "Programming Language :: Python :: 3 :: Only",
 ]
 authors = [
-  { name = "AKSOLTAN SEYIDOVA", email = "janedoe@example-university.com" },
+  { name = "AKSOLTAN SEYIDOVA", email = "s53aseyi@uni-bonn.de" },
 ]
 maintainers = [
-  { name = "AKSOLTAN SEYIDOVA", email = "janedoe@example-university.com" },
+  { name = "AKSOLTAN SEYIDOVA", email = "s53aseyi@uni-bonn.de" },
 ]
 
 [project.readme]
@@ -91,6 +91,7 @@ python-kaleido = ">=1.1"
 statsmodels = "*"
 pyarrow = "*"
 matplotlib = "*"
+scipy = "*"
 ty = "*"
 
 [tool.pixi.pypi-dependencies]
