@@ -28,13 +28,13 @@ FIG2_GENDER_DATA = BLD_FIGURES / "fig2_gender_data.csv"
 FIG2_RACE_DATA = BLD_FIGURES / "fig2_race_data.csv"
 FIG2_UNI_DATA = BLD_FIGURES / "fig2_uni_data.csv"
 FIG2_CONTROLS_DATA = BLD_FIGURES / "fig2_controls_data.csv"
-FIG2_PNG = BLD_FIGURES / "fig2_marginals.png"
+FIG2_PNG = BLD_FIGURES / "fig2_main_results_marginal.png"
 
 FIG3A_DATA = BLD_FIGURES / "fig3a_data.csv"
-FIG3A_PNG = BLD_FIGURES / "fig3a_interaction.png"
+FIG3A_PNG = BLD_FIGURES / "fig3a_main_results_interactions.png"
 
 FIG3B_DATA = BLD_FIGURES / "fig3b_data.csv"
-FIG3B_PNG = BLD_FIGURES / "fig3b_interactions.png"
+FIG3B_PNG = BLD_FIGURES / "fig3b_interactions_coefficients.png"
 
 TABLE1A_TEX = BLD_TABLES / "Table1a_Descriptives_Qualitative.tex"
 TABLE1B_TEX = BLD_TABLES / "Table1b_Descriptives_Quantitative.tex"
