@@ -34,44 +34,72 @@ download:
 - subject_pool.csv
 - subject_pool_scrambled.csv
 
-Place all three data files in 'src/final_project_aksoltans/data/raw/'.
+Place all three data files in `src/final_project_aksoltans/data/raw/`
 
 ## Setup
 
-Install [Pixi](https://pixi.sh/), then: bash pixi install pixi run pytask pixi run
-pytest
+Install [Pixi](https://pixi.sh/), then:
 
-Outputs are saved to 'bld/figures/ and bld/tables/'.
+```bash
+pixi install
+pixi run pytask
+pixi run pytest
+```
 
-## Project structure
+Outputs are saved to `bld/figures/` and `bld/tables/`
 
-src/final_project_aksoltans/ ├── config.py ← shared paths and constants ├──
-data_management/ ← data cleaning │ ├── clean_follow_backs.py │ ├── clean_subject_pool.py
-│ └── task_clean\_*.py ├── analysis/ ← regression engine and data builders │ ├──
-fe_ols.py ← replicates R feols() from fixest │ ├── fig*\_data.py │ ├── table1_data.py │
-└── task_fig\*.py └── final/ ← plotting ├── plot_fig\*.py └── task_plot_fig\*.py bld/ ←
-generated outputs ├── data/ ← cleaned parquet files ├── figures/ ← PNG figures └──
-tables/ ← LaTeX tables tests/ ├── analysis/ └── data_management/
+## Project Structure
 
-## Regression engine
+```
+src/final_project_aksoltans/
+├── config.py                  ← shared paths and constants
+├── data_management/           ← data cleaning
+│   ├── clean_follow_backs.py
+│   ├── clean_subject_pool.py
+│   └── task_clean_*.py
+├── analysis/                  ← regression engine and data builders
+│   ├── fe_ols.py              ← replicates R feols() from fixest
+│   ├── fig*_data.py
+│   ├── table1_data.py
+│   └── task_fig*.py
+└── final/                     ← plotting
+    ├── plot_fig*.py
+    └── task_plot_fig*.py
 
-fe_ols.py replicates R's feols() from the fixest package, including the ssc()
+bld/                           ← generated outputs
+├── data/                      ← cleaned parquet files
+├── figures/                   ← PNG figures
+└── tables/                    ← LaTeX tables
+
+tests/
+├── analysis/
+└── data_management/
+```
+
+## Regression Engine
+
+`fe_ols.py` replicates R's `feols()` from the `fixest` package, including the `ssc()`
 small-sample correction for clustered standard errors and alternating projections for
 fixed-effects absorption.
 
+Python naming conventions differ from the paper's mathematical notation. The mapping is
+as follows:
+
 | Paper/R notation | Python variable |
 | ---------------- | --------------- |
-| Y                | y_vec           |
-| X̃                | x_full          |
-| G                | g_clusters      |
-| K_FE             | k_fe            |
-| V̂_k              | vcov_keep       |
-| V̂                | vcov            |
+| Y                | `y_vec`         |
+| X̃                | `x_full`        |
+| X̃ (rank-reduced) | `x_mat`         |
+| G                | `g_clusters`    |
+| K_FE             | `k_fe`          |
+| V̂_k              | `vcov_keep`     |
+| V̂                | `vcov`          |
 
 ## Credits
 
 Ajzenman, N., Ferman, B., & Sant'Anna, P. C. (2024). Discrimination in the Formation of
 Academic Networks: A Field Experiment on #EconTwitter. *American Economic Review:
 Insights*, 6(4), 501–519. Replication package:
-https://www.openicpsr.org/openicpsr/project/210084/version/V1/view Project template:
-https://github.com/OpenSourceEconomics/econ-project-templates
+https://www.openicpsr.org/openicpsr/project/210084/version/V1/view
+
+Project template: https://github.com/OpenSourceEconomics/econ-project-templates
