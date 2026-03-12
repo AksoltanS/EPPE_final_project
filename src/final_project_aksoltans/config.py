@@ -2,6 +2,11 @@
 
 from pathlib import Path
 
+import pandas as pd
+
+pd.options.mode.copy_on_write = True
+pd.options.future.infer_string = True
+
 SRC: Path = Path(__file__).parent.resolve()
 ROOT: Path = SRC.joinpath("..", "..").resolve()
 BLD: Path = ROOT.joinpath("bld").resolve()
@@ -21,19 +26,19 @@ FOLLOW_BACKS_ANALYSIS = BLD_DATA / "follow_backs_analysis.parquet"
 SUBJECT_POOL_ANALYSIS = BLD_DATA / "subject_pool_analysis.parquet"
 
 
-FIG1_DATA = BLD_FIGURES / "fig1_data.csv"
+FIG1_DATA = BLD_DATA / "fig1_data.csv"
 FIG1_PNG = BLD_FIGURES / "fig1_followbacks_type.png"
 
-FIG2_GENDER_DATA = BLD_FIGURES / "fig2_gender_data.csv"
-FIG2_RACE_DATA = BLD_FIGURES / "fig2_race_data.csv"
-FIG2_UNI_DATA = BLD_FIGURES / "fig2_uni_data.csv"
-FIG2_CONTROLS_DATA = BLD_FIGURES / "fig2_controls_data.csv"
+FIG2_GENDER_DATA = BLD_DATA / "fig2_gender_data.csv"
+FIG2_RACE_DATA = BLD_DATA / "fig2_race_data.csv"
+FIG2_UNI_DATA = BLD_DATA / "fig2_uni_data.csv"
+FIG2_CONTROLS_DATA = BLD_DATA / "fig2_controls_data.csv"
 FIG2_PNG = BLD_FIGURES / "fig2_main_results_marginal.png"
 
-FIG3A_DATA = BLD_FIGURES / "fig3a_data.csv"
+FIG3A_DATA = BLD_DATA / "fig3a_data.csv"
 FIG3A_PNG = BLD_FIGURES / "fig3a_main_results_interactions.png"
 
-FIG3B_DATA = BLD_FIGURES / "fig3b_data.csv"
+FIG3B_DATA = BLD_DATA / "fig3b_data.csv"
 FIG3B_PNG = BLD_FIGURES / "fig3b_interactions_coefficients.png"
 
 TABLE1A_TEX = BLD_TABLES / "Table1a_Descriptives_Qualitative.tex"
