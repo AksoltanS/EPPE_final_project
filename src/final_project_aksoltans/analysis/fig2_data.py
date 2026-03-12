@@ -41,18 +41,18 @@ def _regressors(df: pd.DataFrame, *, controls: bool) -> tuple[pd.DataFrame, list
     return df, BOT_VARS + dummy_cols + continuous
 
 
-def build_fig2_controls_data(fb: pd.DataFrame) -> pd.DataFrame:
+def build_fig2_controls_data(df: pd.DataFrame) -> pd.DataFrame:
     """Run FE-OLS with and without controls, returning estimates for each bot variable.
 
     Args:
-        fb: Cleaned follow-backs DataFrame.
+        df: Cleaned follow-backs DataFrame.
 
     Returns:
         DataFrame with one row per bot variable and control specification.
     """
     rows = []
     for controls in (False, True):
-        df, regs = _regressors(fb.copy(), controls=controls)
+        df, regs = _regressors(df.copy(), controls=controls)
         res, *_ = fe_ols(df, y="FollowBacks", regressors=regs)
         label = "Yes" if controls else "No"
         for coef in BOT_VARS:

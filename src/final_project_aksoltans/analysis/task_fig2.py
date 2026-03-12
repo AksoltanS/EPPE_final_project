@@ -34,7 +34,7 @@ def task_build_fig2_data(
         data: Path to the cleaned follow-backs parquet file.
         produces: Tuple of paths where the Figure 2 CSV files are saved.
     """
-    fb = pd.read_parquet(data)
+    df = pd.read_parquet(data)
 
     for key, path in zip(
         BOT_VARS,
@@ -42,7 +42,7 @@ def task_build_fig2_data(
         strict=False,
     ):
         path.parent.mkdir(parents=True, exist_ok=True)
-        build_fig2_marginals(fb)[key].to_csv(path, index=False)
+        build_fig2_marginals(df)[key].to_csv(path, index=False)
 
     FIG2_CONTROLS_DATA.parent.mkdir(parents=True, exist_ok=True)
-    build_fig2_controls_data(fb).to_csv(FIG2_CONTROLS_DATA, index=False)
+    build_fig2_controls_data(df).to_csv(FIG2_CONTROLS_DATA, index=False)

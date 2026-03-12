@@ -13,7 +13,7 @@ _CENTRE_COLS = [
 _DIMS = ["bot_gender", "bot_race"]
 
 
-def build_fig3b_data(fb: pd.DataFrame, alpha: float = 0.05) -> pd.DataFrame:
+def build_fig3b_data(df: pd.DataFrame, alpha: float = 0.05) -> pd.DataFrame:
     """Estimate heterogeneity in bot_uni effect by gender and race for Figure 3b.
 
     Centers continuous controls, constructs bot_uni interaction terms, runs
@@ -21,13 +21,13 @@ def build_fig3b_data(fb: pd.DataFrame, alpha: float = 0.05) -> pd.DataFrame:
     intervals.
 
     Args:
-        fb: Cleaned follow-backs DataFrame.
+        df: Cleaned follow-backs DataFrame.
         alpha: Significance level for confidence intervals.
 
     Returns:
         DataFrame with one row per dimension and level (0, 1, int).
     """
-    df = fb.copy()
+    df = df.copy()
     centre_cols = [c for c in _CENTRE_COLS if c in df.columns]
     df[centre_cols] = df[centre_cols].astype(float) - df[centre_cols].mean()
     interact = {b: f"bot_uni_x_{b}" for b in _DIMS}

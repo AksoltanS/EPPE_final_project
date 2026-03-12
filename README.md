@@ -34,7 +34,10 @@ download:
 - subject_pool.csv
 - subject_pool_scrambled.csv
 
-Place all three data files in `src/final_project_aksoltans/data/raw/`
+Make sure you are not downloading the data as a .zip
+
+Place all three data files in `src/final_project_aksoltans/data/raw/` Make sure you are
+not downloading the data as a .zip
 
 ## Data Note
 
@@ -74,7 +77,7 @@ src/final_project_aksoltans/
     └── task_plot_fig*.py
 
 bld/                           ← generated outputs
-├── data/                      ← cleaned parquet files
+├── data/                      ← cleaned parquet and CSV files
 ├── figures/                   ← PNG figures
 └── tables/                    ← LaTeX tables
 
