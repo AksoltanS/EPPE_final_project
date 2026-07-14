@@ -41,8 +41,6 @@ def task_build_fig2_data(
         [FIG2_GENDER_DATA, FIG2_RACE_DATA, FIG2_UNI_DATA],
         strict=False,
     ):
-        path.parent.mkdir(parents=True, exist_ok=True)
         build_fig2_marginals(df)[key].to_csv(path, index=False)
 
-    FIG2_CONTROLS_DATA.parent.mkdir(parents=True, exist_ok=True)
     build_fig2_controls_data(df).to_csv(FIG2_CONTROLS_DATA, index=False)

@@ -21,6 +21,5 @@ def task_plot_fig1(
     """
     df = pd.read_csv(data)
     fig = plot_fig1(df)
-    produces.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(produces, dpi=200)
     plt.close(fig)

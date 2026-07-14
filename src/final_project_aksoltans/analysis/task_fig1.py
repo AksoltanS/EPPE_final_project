@@ -24,5 +24,4 @@ def task_build_fig1_data(
     """
     df = pd.read_parquet(data)
     fig1 = build_fig1_data(df)
-    produces.parent.mkdir(parents=True, exist_ok=True)
     fig1.to_csv(produces, index=False)

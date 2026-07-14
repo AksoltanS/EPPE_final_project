@@ -23,6 +23,5 @@ def task_plot_fig3a(
     fig, axes = plt.subplots(1, 2, figsize=(17.72, 5.91), sharey=True)
     plot_fig3a(list(axes), df)
     fig.tight_layout()
-    produces.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(produces, dpi=200)
     plt.close(fig)

@@ -50,6 +50,5 @@ def task_plot_fig2(
     plot_controls(axes[3], ctrl_df)
 
     fig.tight_layout(rect=(0, 0, 1, 0.93))
-    produces.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(produces, dpi=200)
     plt.close(fig)

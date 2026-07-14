@@ -44,7 +44,6 @@ def task_build_table1a(
             subjects[col] = scrambled[col].to_numpy()
 
     t1a = build_table1a(subjects)
-    produces.parent.mkdir(parents=True, exist_ok=True)
     t1a.drop(columns=["variable", "indent"]).to_latex(
         produces,
         index=False,
@@ -78,7 +77,6 @@ def task_build_table1b(
         )
 
     t1b = build_table1b(scrambled)
-    produces.parent.mkdir(parents=True, exist_ok=True)
     t1b.to_latex(
         produces,
         index=False,

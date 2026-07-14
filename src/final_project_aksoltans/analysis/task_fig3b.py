@@ -23,5 +23,4 @@ def task_build_fig3b_data(
         produces: Path where the Figure 3b CSV is saved.
     """
     df = pd.read_parquet(data)
-    produces.parent.mkdir(parents=True, exist_ok=True)
     build_fig3b_data(df).to_csv(produces, index=False)
