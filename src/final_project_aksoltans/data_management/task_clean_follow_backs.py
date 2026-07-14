@@ -1,8 +1,9 @@
 from pathlib import Path
 
+import pandas as pd
+
 from final_project_aksoltans.config import FOLLOW_BACKS_ANALYSIS, FOLLOW_BACKS_RAW, SRC
 from final_project_aksoltans.data_management.clean_follow_backs import (
-    load_follow_backs_raw,
     make_follow_backs_analysis_sample,
 )
 
@@ -20,7 +21,6 @@ def task_clean_follow_backs_data(
         produces: Path where the cleaned parquet file is saved.
 
     """
-    raw = load_follow_backs_raw(data)
+    raw = pd.read_csv(data, sep=";")
     clean = make_follow_backs_analysis_sample(raw)
-    produces.parent.mkdir(parents=True, exist_ok=True)
     clean.to_parquet(produces, index=False)

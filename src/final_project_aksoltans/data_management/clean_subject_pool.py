@@ -1,5 +1,3 @@
-from pathlib import Path
-
 import pandas as pd
 
 from final_project_aksoltans.data_management.utils import check_required_columns
@@ -39,30 +37,6 @@ _PROFESSION_MAP: dict[str, str] = {
 _CONTINENT_OTHER: set[str] = {"Africa", "Asia", "LatinAmerica", "Oceania"}
 
 
-def load_subject_pool_raw(path: Path) -> pd.DataFrame:
-    """Load the raw subject pool dataset from a CSV.
-
-    Args:
-        path: Path to the subject_pool.csv file.
-
-    Returns:
-        Raw subject pool data as a DataFrame.
-    """
-    return pd.read_csv(path)
-
-
-def load_subject_pool_scrambled_raw(path: Path) -> pd.DataFrame:
-    """Load the scrambled subject pool dataset from a CSV.
-
-    Args:
-        path: Path to the scrambled subject pool CSV file.
-
-    Returns:
-        Raw scrambled subject pool data as a DataFrame
-    """
-    return pd.read_csv(path)
-
-
 def _simplify_professions(s: pd.Series) -> pd.Series:
     """Simplify some professions by merging to Other.
 
@@ -94,7 +68,7 @@ def make_subject_pool_analysis_sample(subject_pool: pd.DataFrame) -> pd.DataFram
     continent labels, and drops rows with missing values in string columns.
 
     Args:
-        subject_pool: Raw subject pool DataFrame from `load_subject_pool_raw`.
+        subject_pool: Raw subject pool DataFrame loaded from subject_pool.csv.
 
     Returns:
         Cleaned DataFrame ready to use to create figures and tables.

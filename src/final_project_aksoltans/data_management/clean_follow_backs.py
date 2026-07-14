@@ -1,5 +1,3 @@
-from pathlib import Path
-
 import pandas as pd
 
 from final_project_aksoltans.data_management.utils import check_required_columns
@@ -45,18 +43,6 @@ _KEY_COLS: list[str] = [
 _REQUIRED_COLS: list[str] = _INT_COLS + _FLOAT_COLS + _STR_COLS
 
 
-def load_follow_backs_raw(path: Path) -> pd.DataFrame:
-    """Load the raw follow-backs dataset from a semicolon-delimited CSV.
-
-    Args:
-        path: Path to the follow_backs.csv file.
-
-    Returns:
-        Raw follow-backs data as a DataFrame.
-    """
-    return pd.read_csv(path, sep=";")
-
-
 def make_follow_backs_analysis_sample(raw: pd.DataFrame) -> pd.DataFrame:
     """Clean the raw follow-backs data into the analysis sample.
 
@@ -65,7 +51,7 @@ def make_follow_backs_analysis_sample(raw: pd.DataFrame) -> pd.DataFrame:
     analysis columns.
 
     Args:
-        raw: Raw follow-backs DataFrame from "load_follow_backs_raw".
+       raw: Raw follow-backs DataFrame loaded from follow_backs.csv.
 
     Returns:
         Cleaned DataFrame ready to use to create figures and tables.

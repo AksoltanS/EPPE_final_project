@@ -1,8 +1,9 @@
 from pathlib import Path
 
+import pandas as pd
+
 from final_project_aksoltans.config import SRC, SUBJECT_POOL_ANALYSIS, SUBJECT_POOL_RAW
 from final_project_aksoltans.data_management.clean_subject_pool import (
-    load_subject_pool_raw,
     make_subject_pool_analysis_sample,
 )
 
@@ -20,7 +21,6 @@ def task_clean_subject_pool_data(
         produces: Path where the cleaned parquet file is saved.
 
     """
-    raw = load_subject_pool_raw(data)
+    raw = pd.read_csv(data)
     clean = make_subject_pool_analysis_sample(raw)
-    produces.parent.mkdir(parents=True, exist_ok=True)
     clean.to_parquet(produces, index=False)
