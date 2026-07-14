@@ -5,26 +5,6 @@ from statsmodels.stats.weightstats import DescrStatsW
 _MIN_GROUP_SIZE = 2
 
 
-def _mean_ci_t(x: pd.Series, alpha: float = 0.05) -> tuple[float, float, float]:
-    """Return the mean and t-based confidence interval for a series.
-
-    Falls back to NaN bounds when the group has fewer than
-    _MIN_GROUP_SIZE observations.
-
-    Args:
-       x: Numeric series to summarise.
-       alpha: Significance level for the confidence interval.
-
-    Returns:
-      Tuple of (mean, ci_low, ci_high).
-    """
-    mean = float(x.mean())
-    if x.size < _MIN_GROUP_SIZE:
-        return mean, np.nan, np.nan
-    ci_low, ci_high = DescrStatsW(x).tconfint_mean(alpha=alpha)
-    return mean, float(ci_low), float(ci_high)
-
-
 def aggregate_experimental_data(
     df: pd.DataFrame,
     group_cols: list[str],
@@ -53,3 +33,23 @@ def aggregate_experimental_data(
         row["ciH"] = ci_high
         rows.append(row)
     return pd.DataFrame(rows).reset_index(drop=True)
+
+
+def _mean_ci_t(x: pd.Series, alpha: float = 0.05) -> tuple[float, float, float]:
+    """Return the mean and t-based confidence interval for a series.
+
+    Falls back to NaN bounds when the group has fewer than
+    _MIN_GROUP_SIZE observations.
+
+    Args:
+       x: Numeric series to summarise.
+       alpha: Significance level for the confidence interval.
+
+    Returns:
+      Tuple of (mean, ci_low, ci_high).
+    """
+    mean = float(x.mean())
+    if x.size < _MIN_GROUP_SIZE:
+        return mean, np.nan, np.nan
+    ci_low, ci_high = DescrStatsW(x).tconfint_mean(alpha=alpha)
+    return mean, float(ci_low), float(ci_high)

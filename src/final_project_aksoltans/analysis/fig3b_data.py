@@ -79,8 +79,8 @@ def build_fig3b_data(df: pd.DataFrame, alpha: float = 0.05) -> pd.DataFrame:
         ib, ii = idx[b], idx[iv]
         b0 = res[b]["estimate"]
         b_int = res[iv]["estimate"]
-        se_b0 = (res[b]["ci_high"] - res[b]["ci_low"]) / (2 * t_crit)
-        se_int = (res[iv]["ci_high"] - res[iv]["ci_low"]) / (2 * t_crit)
+        se_b0 = res[b]["se"]
+        se_int = res[iv]["se"]
         se_b1 = float(np.sqrt(max(vcov[ib, ib] + vcov[ii, ii] + 2 * vcov[ib, ii], 0.0)))
         rows += [
             _row(b, "0", float(b0), float(se_b0)),
